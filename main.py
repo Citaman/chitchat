@@ -5,7 +5,7 @@ import openai
 import streamlit as st
 
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = st.secrets["OPENAI_API_KEY"] #os.getenv('OPENAI_API_KEY')
 
 REASON_FOR_SELLING = ""
 WHEN_TO_SELL = ""
