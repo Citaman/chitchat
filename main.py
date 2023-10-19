@@ -8,7 +8,7 @@ import streamlit as st
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 REASON_FOR_SELLING = ""
-TIME_OF_SALE = ""
+WHEN_TO_SELL = ""
 STRATEGY_FOR_SELLING = ""
 STEPS_TAKEN_SO_FAR = ""
 CONSTRAINTS_FOR_SELLING = ""
@@ -19,11 +19,11 @@ SELLER_MESSAGES = []
 st.set_page_config(page_title="ChitChat")
 
 avatar = {
-    "ai": "src/static/media/logo-purple-circle-50.png",
-    "assistant": "src/static/media/logo-purple-circle-50.png",
-    "user": "src/static/media/seller-avatar.png",
-    "human": "src/static/media/seller-avatar.png",
-    "system": "src/static/media/logo-purple-circle-50.png"
+    "ai": "logo-purple-circle-50.png",
+    "assistant": "logo-purple-circle-50.png",
+    "user": "seller-avatar.png",
+    "human": "seller-avatar.png",
+    "system": "logo-purple-circle-50.png"
 }
 
 lead_validation = """
@@ -48,22 +48,77 @@ When the seller has answered all the questions summarize the reasons in a list:
 * The steps the seller has already taken.
 * What are possible constraints for selling.
 
-And say that the seller will be contacted by a seller from Meilleurs Agents in the next 24 hours.
+Now add the sellers answers to the Python dictionary:
+responses = {
+    "reason_to_sell": "The seller's reason to sell.",
+    "when_to_sell": "When the property is to be sold.",
+    "strategy_for_selling": "The seller's strategy to sell.",
+    "steps_taken_so_far": "The steps the seller has already taken.",
+    "constraints_for_selling": "What are possible constraints for selling." 
+}
 
 """
 
-responses = {}
+responses = {
+    "reason_to_sell": "",
+    "when_to_sell": "",
+    "strategy_for_selling": "",
+    "steps_taken_so_far": "",
+    "constraints_for_selling": ""
+}
 
-initial_message = [
-        {"role": "system", "content": lead_validation },
-        {"role": "assistant", "content": "Hi I am your AVIV virtual assistant. In order to help you sell your property "
-                                         "I need to understand your personal circumstances at this point. "},
+english_thinking = "Thinking..."
+english_placeholder = "Your message"
+english_reset = "Clear ChitChat History"
+english_message = [
+        {"role": "system", "content": lead_validation},
+        {"role": "assistant", "content": "Hi I am ChitChat your AVIV virtual assistant. In order to help you sell your "
+                                         "property. I need to understand your personal circumstances at this point. "},
         {"role": "assistant", "content": "Please tell me why do you want to sell your property? "}
     ]
 
+german_thinking = "Nachdenken..."
+german_placeholder = "Deine Nachricht"
+german_reset = "ChitChat zurücksetzen"
+german_message = [
+        {"role": "system", "content": lead_validation},
+        {"role": "assistant", "content": "Hallo, ich bin ChitChat, dein virtueller AVIV Assistent. Um dir beim Verkauf "
+                                         "deiner Immobilie zu Helfen, brauche ich noch ein paar Informationen zu "
+                                         "deiner persönlichen Situation."},
+        {"role": "assistant", "content": "Sag mir bitte, warum möchtest du deine Immobilie verkaufen? "}
+    ]
+
+french_thinking = "Penser..."
+french_placeholder = "Votre message"
+french_reset = "Effacer l'historique de ChitChat"
+french_message = [
+        {"role": "system", "content": lead_validation},
+        {"role": "assistant", "content": "Salut, je suis ChitChat, votre assistant virtuel AVIV. Afin de vous aider à "
+                                         "vendre votre propriété, j'ai besoin de comprendre votre situation "
+                                         "personnelle à ce stade."},
+        {"role": "assistant", "content": "S'il vous plaît, dites-moi pourquoi vous voulez vendre votre propriété? "}
+    ]
+
+spanish_thinking = "Pensando..."
+spanish_placeholder = "Tu mensaje"
+spanish_reset = "Borrar el historial de ChitChat"
+spanish_message = [
+        {"role": "system", "content": lead_validation},
+        {"role": "assistant", "content": "Hola, soy ChitChat, tu asistente virtual AVIV. Para ayudarte a vender tu "
+                                         "propiedad, necesito entender tus circunstancias personales en este "
+                                         "momento. "},
+        {"role": "assistant", "content": "Por favor, dime por qué quieres vender tu propiedad. "}
+    ]
+
+initial_message = english_message
+chitchat_thinking = english_thinking
+user_prompt = english_placeholder
+chitchat_reset = english_reset
+
+with open("style.css") as css:
+    st.markdown(f'<style>{css.read()}</style>', unsafe_allow_html=True)
+
 st.session_state.responses = responses
-for response in responses:
-    print(f"Response: {response}")
 
 # Store LLM generated responses
 if "messages" not in st.session_state.keys():
@@ -84,8 +139,8 @@ def clear_chat_history():
     st.session_state.messages = initial_message.copy()
 
 
-st.sidebar.image("src/static/media/logo-text-black-500.png",width=200)
-st.sidebar.button("Clear ChitChat History", on_click=clear_chat_history)
+st.sidebar.image("Logo-text-black-margin-500.png")
+st.sidebar.button(chitchat_reset, on_click=clear_chat_history)
 
 
 # Function to get a random phrase
@@ -116,7 +171,7 @@ def get_completion(
 
 
 # User-provided prompt
-if prompt := st.chat_input(disabled=False):
+if prompt := st.chat_input(disabled=False, placeholder=user_prompt):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user", avatar=avatar["user"]):
         st.write(prompt)
@@ -126,7 +181,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
     # global SELLER_MESSAGES
     st.session_state.seller_response.append(st.session_state.messages[-1]['content'])
     with st.chat_message("assistant", avatar=avatar["assistant"]):
-        with st.spinner("Thinking..."):
+        with st.spinner(chitchat_thinking):
             response = get_completion(st.session_state.messages)
             message = {"role": "assistant", "content": response}
         st.write(response)
