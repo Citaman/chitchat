@@ -19,11 +19,11 @@ SELLER_MESSAGES = []
 st.set_page_config(page_title="ChitChat")
 
 avatar = {
-    "ai": "logo-purple-circle-50.png",
-    "assistant": "logo-purple-circle-50.png",
-    "user": "seller-avatar.png",
-    "human": "seller-avatar.png",
-    "system": "logo-purple-circle-50.png"
+    "ai": "src/static/media/logo-purple-circle-50.png",
+    "assistant": "src/static/media/logo-purple-circle-50.png",
+    "user": "src/static/media/seller-avatar.png",
+    "human": "src/static/media/seller-avatar.png",
+    "system": "src/static/media/logo-purple-circle-50.png"
 }
 
 lead_validation = """
@@ -115,7 +115,7 @@ chitchat_thinking = english_thinking
 user_prompt = english_placeholder
 chitchat_reset = english_reset
 
-with open("style.css") as css:
+with open("src/static/css/style.css") as css:
     st.markdown(f'<style>{css.read()}</style>', unsafe_allow_html=True)
 
 st.session_state.responses = responses
@@ -139,7 +139,7 @@ def clear_chat_history():
     st.session_state.messages = initial_message.copy()
 
 
-st.sidebar.image("Logo-text-black-margin-500.png")
+st.sidebar.image("src/static/media/Logo-text-black-margin-500.png")
 st.sidebar.button(chitchat_reset, on_click=clear_chat_history)
 
 
