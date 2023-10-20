@@ -20,7 +20,7 @@ SELLER_MESSAGES = []
 st.set_page_config(page_title="ChitChat")
 
 avatar = {
-    "ai":  Image.open("logo-purple-circle-50.png"),
+    "ai":  Image.open("logo-purple-circle-50.jpg"),
     "assistant":  Image.open("logo-purple-circle-50.png"),
     "user": "src/static/media/seller-avatar.png",
     "human": "src/static/media/seller-avatar.png",
