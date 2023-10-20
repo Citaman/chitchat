@@ -4,7 +4,7 @@ from typing import List, Dict
 import openai
 import streamlit as st
 from PIL import Image
-
+import io
 
 openai.api_key = st.secrets["OPENAI_API_KEY"] #os.getenv('OPENAI_API_KEY')
 
@@ -18,7 +18,10 @@ SELLER_MESSAGES = []
 
 # App title
 st.set_page_config(page_title="ChitChat")
+# src/static/media/logo-text-black-margin-500.png
+image = Image.open('src/static/media/logo-text-black-margin-500.png')
 
+st.sidebar.image(image)
 avatar = {
     "ai":  Image.open("logo-purple-circle-50.jpg"),
     "assistant":  Image.open("logo-purple-circle-50.jpg"),
