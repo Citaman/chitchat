@@ -27,6 +27,8 @@ avatar = {
     "system": "src/static/media/logo-purple-circle-50.png"
 }
 
+print( Image.open("src/static/media/logo-purple-circle-50.png"))
+
 lead_validation = """
 You are an experienced expert in the field of real estate sales. Your job is to get information about the sellers 
 and their properties. During the conversation, you will ask a couple of questions about the seller's plans for selling 
