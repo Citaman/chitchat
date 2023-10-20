@@ -19,12 +19,13 @@ SELLER_MESSAGES = []
 # App title
 st.set_page_config(page_title="ChitChat")
 ai_img = Image.open("src/static/media/logo-purple-circle-50.png")
+humain_img = Image.open("src/static/media/seller-avatar.png")
 avatar = {
     "ai":  ai_img,
     "assistant":  ai_img,
-    "user": "src/static/media/seller-avatar.png",
-    "human": "src/static/media/seller-avatar.png",
-    "system": "src/static/media/logo-purple-circle-50.png"
+    "user": humain_img,
+    "human": humain_img,
+    "system": ai_img
 }
 
 lead_validation = """
