@@ -138,10 +138,10 @@ for message in st.session_state.messages:
 
 def clear_chat_history():
     st.session_state.messages = initial_message.copy()
+# src/static/media/logo-text-black-margin-500.png
+#image = Image.open('src/static/media/logo-text-black-margin-500.png')
 
-image = Image.open('src/static/media/Logo-text-black-margin-500.png')
-
-st.sidebar.image(image)
+#st.sidebar.image(image)
 st.sidebar.button(chitchat_reset, on_click=clear_chat_history)
 
 
