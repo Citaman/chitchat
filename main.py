@@ -3,6 +3,7 @@ import os
 from typing import List, Dict
 import openai
 import streamlit as st
+from PIL import Image
 
 
 openai.api_key = st.secrets["OPENAI_API_KEY"] #os.getenv('OPENAI_API_KEY')
@@ -138,8 +139,9 @@ for message in st.session_state.messages:
 def clear_chat_history():
     st.session_state.messages = initial_message.copy()
 
+image = Image.open('src/static/media/Logo-text-black-margin-500.png')
 
-st.sidebar.image("src/static/media/Logo-text-black-margin-500.png")
+st.sidebar.image(image)
 st.sidebar.button(chitchat_reset, on_click=clear_chat_history)
 
 
