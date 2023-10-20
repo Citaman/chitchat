@@ -18,13 +18,10 @@ SELLER_MESSAGES = []
 
 # App title
 st.set_page_config(page_title="ChitChat")
-# src/static/media/logo-text-black-margin-500.png
-image = Image.open('src/static/media/logo-text-black-margin-500.png')
 
-st.sidebar.image(image)
 avatar = {
-    "ai":  Image.open("logo-purple-circle-50.jpg"),
-    "assistant":  Image.open("logo-purple-circle-50.jpg"),
+    "ai":  Image.open("src/static/media/logo-purple-circle-50.png"),
+    "assistant":  Image.open("src/static/media/logo-purple-circle-50.png"),
     "user": "src/static/media/seller-avatar.png",
     "human": "src/static/media/seller-avatar.png",
     "system": "src/static/media/logo-purple-circle-50.png"
@@ -143,10 +140,10 @@ for message in st.session_state.messages:
 
 def clear_chat_history():
     st.session_state.messages = initial_message.copy()
-# src/static/media/logo-text-black-margin-500.png
-#image = Image.open('src/static/media/logo-text-black-margin-500.png')
 
-#st.sidebar.image(image)
+image = Image.open('src/static/media/logo-text-black-margin-500.png')
+
+st.sidebar.image(image)
 st.sidebar.button(chitchat_reset, on_click=clear_chat_history)
 
 
